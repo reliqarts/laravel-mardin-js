@@ -1,5 +1,5 @@
 # Mardin-js
-React/Redux counterpart for [Laravel Mardin](http://github.com/reliqarts/mardin).
+React/Redux counterpart for [Mardin](http://github.com/reliqarts/mardin).
 
 ---
 
