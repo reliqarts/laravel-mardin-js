@@ -29,9 +29,10 @@ export default class Mardin {
         this.app = app || {};
         this.listen();
 
-        app.Mardin = this;
-
         if (this.loaded && window.mardinBase) {
+            if (log === undefined) {
+                var log = console.log.bind(this);
+            }
             log('Mardin ready ^_^');
         }
     }

@@ -12,10 +12,7 @@
     ],
     "env": {
         "development": {
-            "presets": [
-                // hot module replacement?
-                // "react-hmre"
-            ]
+            "presets": []
         }
     }
 }

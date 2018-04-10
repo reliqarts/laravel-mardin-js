@@ -34,7 +34,9 @@ export default class Tray extends Component {
         // Allow tray auto-close
         this.allowAutoClose();
         // Polish app
-        app.polish();
+        if ($.isFunction(app.polish)) {
+            app.polish();
+        }
     }
 
     componentWillUnmount() {
