@@ -5,8 +5,6 @@
  */
 
 import React from 'react';
-
-import Ad from './Ad';
 import { Link, IndexLink } from 'react-router';
 
 let Nav = (props) => {

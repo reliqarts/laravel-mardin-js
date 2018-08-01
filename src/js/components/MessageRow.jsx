@@ -6,6 +6,8 @@
 import React, { Component } from 'react';
 import TimeAgo from 'timeago-react'
 
+import { trimString } from '../utils';
+
 export default class MessageRow extends Component {
     constructor(props) {
         super(props);

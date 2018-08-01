@@ -36,7 +36,7 @@ export default class ThreadStack extends Component {
                                     selected={threads.length && (selected.length == threads.length)} 
                                     onSelect={ev => onSelectAll(ev, threads)} 
                                     label="all" 
-                                    iconClass='icon-f-check-double-2' />
+                                    iconClass="double" />
                             </th>
                             <th className="sndr">Sender</th>
                             <th className="lst">Last Message</th>

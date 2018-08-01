@@ -3,13 +3,19 @@
  *
  * @type {Component}
  */
-import React, { Component } from 'react';
+import React from 'react';
+import { IoMdCheckmark, IoMdDoneAll } from 'react-icons/io';
 
 let Checkbox = (props) => {
     let { selected, onSelect, onCheck, label, iconClass } = props,
-        classes = 'mardin-cbx' + (selected ? ' selected' : '');
+        classes = 'mardin-cbx' + (selected ? ' selected' : ''),
+        Icon = IoMdCheckmark;
 
-    iconClass = (iconClass || 'icon-f-check-1') + ' icon-only';
+    iconClass = (iconClass || 'single');
+
+    if (iconClass !== 'single') {
+        Icon = IoMdDoneAll;
+    }
 
     return (
         <div className={classes} onClick={onSelect || onCheck}>
@@ -17,7 +23,7 @@ let Checkbox = (props) => {
                 <input defaultChecked={selected} type="checkbox" />{label}
             </label>
             { selected ?
-            <span className={iconClass}></span>
+            <Icon/>
             : null}
         </div>
     );

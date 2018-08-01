@@ -17,7 +17,6 @@ import Inbox from './components/Inbox';
 import Thread from './components/Thread';
 import ThreadStack from './components/ThreadStack';
 import * as inboxActions from './actions/inboxActions';
-import * as threadActions from './actions/threadActions';
 
 export default class Mardin {
     /**

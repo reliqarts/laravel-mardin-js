@@ -87,12 +87,13 @@ export default (state = initialState, action) => {
 
             let errorMessage =
                 'An unexpected error occured while trying to load your messages. Please try again or contact support.';
-            switch (action.payload.response.status) {
+            switch (action.payload) {
                 case 403:
                     errorMessage = 'Oops! You are not allowed to send or receive messages at this time. Forbidden.';
                     break;
                 default:
                     errorMessage = errorMessage;
+                    console.error(action.payload);
                     break;
             }
             alert(errorMessage);

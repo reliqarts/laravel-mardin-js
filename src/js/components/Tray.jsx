@@ -7,6 +7,8 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
 import MessageRow from './MessageRow';
+import StyledTray from './styled/Tray';
+import { MdInbox } from 'react-icons/md';
 import * as inboxActions from '../actions/inboxActions';
 import * as trayActions from '../actions/trayActions';
 
@@ -72,9 +74,9 @@ export default class Tray extends Component {
         if (open) trayClasses += ' open';
 
         return (
-            <div id="mardin-tray-container" className={trayClasses}>
+            <StyledTray id="mardin-tray-container" className={trayClasses}>
                 <a href="javascript:void(0)" className="tray-toggle dropdown-toggle" onClick={(ev) => this.handleTriggerClicked(ev)}>
-                    <span className="icon fa fa-inbox fa-lg icon-only"></span>
+                    <MdInbox/>
                     { count ?
                     <aside className="tray-count">{count}</aside>
                     : ''}
@@ -92,7 +94,7 @@ export default class Tray extends Component {
                             </ul>
                             : !loading ?
                             <p className="empty">
-                                <span className="icon icon-f-inbox-1 icon-3x icon-only"></span>
+                                <MdInbox className="icon"/>
                                 <span>You have no new messages.</span>
                             </p> 
                             : ''}
@@ -102,7 +104,7 @@ export default class Tray extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </StyledTray>
         );
     }
 
