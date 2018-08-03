@@ -57,7 +57,7 @@ export default class Mardin {
             window.mardinAd = mardinAd || false;
 
             // Listen for user messages
-            this.Echo.private(`App.User.${user}.Messages`).listen('NewMessage', e => {
+            this.Echo.private(`Mardin.Messages.User.${user}`).listen('.newMessage', e => {
                 let message = e.message.data;
                 store.dispatch(inboxActions.newMessage(message));
             });

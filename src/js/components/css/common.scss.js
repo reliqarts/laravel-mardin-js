@@ -13,7 +13,8 @@ let grayDarker = '#222',
     grayLighter = '#eee',
     primaryColor = '#86B549',
     secondaryColor = '#1682B0',
-    dangerColor = '#f25158';
+    dangerColor = '#f25158',
+    avatarPlaceholder = 'https://fillmurray.com/g/150/150';
 
 let clearfix = `
     clear: both;
@@ -156,7 +157,7 @@ export default `
                                         white-space: nowrap;
 
                                         img {
-                                            background: #fff url(../img/person-silhouette.png) no-repeat center/contain;
+                                            background: #fff url(${avatarPlaceholder}) no-repeat center/contain;
                                             color: transparent;
                                             box-shadow: 0 1px 2px 0 rgba(17, 17, 17, .29);
                                             border-radius: 40px;
@@ -395,7 +396,7 @@ export default `
                             }
 
                             img {
-                                background: #fff url(../img/person-silhouette.png) no-repeat center/contain;
+                                background: #fff url(${avatarPlaceholder}) no-repeat center/contain;
                                 color: transparent;
                                 box-shadow: 0 1px 2px 0 rgba(17, 17, 17, .29);
                                 border-radius: 40px;
