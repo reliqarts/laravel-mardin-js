@@ -1,6 +1,6 @@
 {
     "name": "mardin",
-    "version": "0.1.9",
+    "version": "0.2.0",
     "description": "Laravel Mardin Messenger counterpart. This little pigeon ^_^",
     "main": "dist/mardin.js",
     "scripts": {
