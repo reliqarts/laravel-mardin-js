@@ -5,14 +5,12 @@
  */
 
 import React from 'react';
-
-import Ad from './Ad';
 import { Link, IndexLink } from 'react-router';
 
 let Nav = (props) => {
     return (
         <aside className="sec-side sr-side">
-            <section id="menu" className="sr-card list nav">
+            <nav id="menu" className="sec-card sr-card list nav">
                 <ul>
                     <li>
                         <IndexLink to="/" activeClassName="active"><span className="icon icon-f-envelope-3"></span> All</IndexLink>
@@ -32,7 +30,7 @@ let Nav = (props) => {
                     </li>
                     */}
                 </ul>
-            </section>
+            </nav>
         </aside>
     )
 };

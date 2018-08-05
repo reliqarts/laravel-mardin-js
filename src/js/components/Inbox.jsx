@@ -3,17 +3,19 @@
  *
  * @type {Component}
  */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Ad from './Ad';
 import Nav from './InboxNav';
+import StyledInbox from './styled/Inbox';
+import { IoMdMailOpen, IoMdMailUnread } from 'react-icons/io';
 import * as inboxActions from '../actions/inboxActions';
 
-@connect((store) => {
+@connect(store => {
     return {
         ...store.inbox
-    }
+    };
 })
 export default class Inbox extends Component {
     constructor(props) {
@@ -34,57 +36,65 @@ export default class Inbox extends Component {
 
     componentDidMount() {
         const { app } = this.props.route;
-        
+
         if ($.isFunction(app.polish)) {
             app.polish();
         }
     }
-    
+
     render() {
         let subtitle = this.props.subtitle,
-            inboxClasses = 'threads results sec-card sr-card';
-        
-        if (this.props.loading) inboxClasses += ' loading';
+            inboxInnerClasses = 'threads results sec-card sr-card';
+
+        if (this.props.loading) inboxInnerClasses += ' loading';
 
         return (
-            <div className="row">
-                <Nav/>
+            <StyledInbox>
+                <Nav />
                 <main className="sec-main sr-main">
-                    { window.adsbygoogle ?
-                        <Ad></Ad>
-                    : ''}
-                    <section id="mardin-in" className={inboxClasses} data-loadable="true">
+                    {window.adsbygoogle ? <Ad /> : ''}
+                    <section id="mardin-in" className={inboxInnerClasses} data-loadable="true">
                         <div className="card-title">
                             <span>{subtitle}</span>
-                            { this.props.selected.length ? 
+                            {this.props.selected.length ? (
                                 <ul id="mardin-in-actions" className="mardin-actions">
                                     <li>
-                                        <a href="#" title="Mark as Read" onClick={this.handleMarkSelectedAsRead.bind(this)}>
-                                            <span className="icon-email-read-2 icon-only"></span>
+                                        <a
+                                            href="#"
+                                            title="Mark as Read"
+                                            onClick={this.handleMarkSelectedAsRead.bind(this)}
+                                        >
+                                            <IoMdMailOpen/>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" title="Mark as Unread" onClick={this.handleMarkSelectedAsUnread.bind(this)}>
-                                            <span className="icon-email-2 icon-only"></span>
+                                        <a
+                                            href="#"
+                                            title="Mark as Unread"
+                                            onClick={this.handleMarkSelectedAsUnread.bind(this)}
+                                        >
+                                            <IoMdMailUnread/>
                                         </a>
                                     </li>
                                     {/*<li>
-                                        <a href="#" title="Delete" onClick={this.handleDeleteSelected.bind(this)}>
-                                            <span className="icon-bin-1 icon-only"></span>
-                                        </a>
-                                    </li>*/}
+                                            <a href="#" title="Delete" onClick={this.handleDeleteSelected.bind(this)}>
+                                                <span className="icon-bin-1 icon-only"></span>
+                                            </a>
+                                        </li>*/}
                                 </ul>
-                            : null }
+                            ) : null}
                         </div>
 
                         {/* render children (this.props.children), while passing props to them: */}
-                        {React.Children.map(this.props.children, child => React.cloneElement(child, {
-                            ...this.props,
-                            ...this.propsForChildren 
-                        }))}
+                        {React.Children.map(this.props.children, child =>
+                            React.cloneElement(child, {
+                                ...this.props,
+                                ...this.propsForChildren
+                            })
+                        )}
                     </section>
                 </main>
-            </div>
+            </StyledInbox>
         );
     }
 
@@ -121,7 +131,7 @@ export default class Inbox extends Component {
             text: 'Are you sure you want to delete the selected threads?',
             buttons: [
                 {
-                    addClass: 'btn btn-primary', 
+                    addClass: 'btn btn-primary',
                     text: 'Yes, delete them',
                     onClick: function($noty) {
                         $noty.close();
@@ -129,8 +139,8 @@ export default class Inbox extends Component {
                     }
                 },
                 {
-                    addClass: 'btn btn-danger', 
-                    text: 'Cancel', 
+                    addClass: 'btn btn-danger',
+                    text: 'Cancel',
                     onClick: function($noty) {
                         $noty.close();
                         return false;

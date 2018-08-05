@@ -4,16 +4,18 @@
  * @type {Component}
  */
 import React, { Component } from 'react';
-import TimeAgo from 'timeago-react'
+import TimeAgo from 'timeago-react';
+import { FiCornerDownLeft } from 'react-icons/fi';
 
 import Checkbox from './Checkbox';
+import { trimString } from '../utils';
 
 export default class ThreadRow extends Component {
     render() {
         let { thread, selected, onSelect, onClick, userId, hidden } = this.props;
         let lastMessage = thread.latestMessage.data,
             threadClasses = 'thread' + (selected ? ' selected' : '') + (thread.unread ? ' new' : ''),
-            senderName = lastMessage.sender.data.id == userId ? 'Me' : lastMessage.sender.data.name;
+            senderName = lastMessage.sender.data.name;
         
         if (!hidden) {
             return (
@@ -26,7 +28,8 @@ export default class ThreadRow extends Component {
                         <span>{senderName}</span>
                     </td>
                     <td className="lst">
-                        <span>{trimString(lastMessage.body, 55)}</span>
+                        <span className="light">{ (lastMessage.sender.data.id == userId ? <span><FiCornerDownLeft/> </span> : '') }</span>
+                        <span>{ trimString(lastMessage.body, 55) }</span>
                     </td>
                     <td className="upd">
                         <span><TimeAgo datetime={thread.updated_at_raw.date} /></span>

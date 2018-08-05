@@ -6,8 +6,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import Ad from './Ad';
 import MessageRow from './MessageRow';
+import StyledThread from './styled/Thread';
+import { MdWarning } from 'react-icons/md';
+import { FaFeather } from 'react-icons/fa';
+import { IoMdMailUnread, IoMdPaperPlane } from 'react-icons/io';
 import * as threadActions from '../actions/threadActions';
 
 @connect((store) => {
@@ -50,9 +53,8 @@ export default class Thread extends Component {
     render() {
         let { subject, messages, loading, userId, sending, maxText, minText, participants, created_at, infoLine } = this.props,
             { isNew, newMessageLength } = this.state,
-            threadClasses = 'messages results sr-card',
+            threadClasses = 'messages results sec-card sr-card',
             messageRows   = messages.map(m => <MessageRow key={m.id} message={m} userId={userId} />),
-            sendBtnIcon   = 'icon ' + (sending ? 'icon-f-email-send-3' : 'icon-f-email-send-2'),
             teCharCounterClasses = 'char-count' + (newMessageLength > maxText || newMessageLength < minText ? ' red' : ''),
             subjectClasses = 'subject' + (isNew ? ' new' : '');
 
@@ -61,81 +63,85 @@ export default class Thread extends Component {
 
 
         return (
-            <section id="mardin-in" className={threadClasses} data-loadable="true">
-                <div className="card-title">
-                    <h1 className={subjectClasses} contentEditable={isNew} ref="subjectHeading">{subject}</h1>
-                    <div className="info-bar">
-                        <small>
-                            { infoLine ? 
-                            <span>{infoLine}</span> 
-                            : <span>Started {created_at} with {participants} and You</span>
-                            }
-                        </small>
-
-                        <ul id="mardin-in-actions" className="mardin-actions">
-                            <li>
-                                <a href="#" title="Mark this thread as unread." onClick={this.handleMarkAsUnread.bind(this)}>
-                                    <span className="icon-email-2 icon-only"></span>
-                                </a>
-                            </li>
-                            {/*<li>
-                                <a href="#" title="Delete this thread. This action may be permanent." onClick={this.handleDelete.bind(this)}>
-                                    <span className="icon-bin-1 icon-only"></span>
-                                </a>
-                            </li>*/}
-                        </ul>
-                    </div>
-                </div>
-
-                {/* Render messages or appropriate status. */}
-                { messages.length ?
-                <div id="thread-messages" 
-                    className="card-core thread-messages" 
-                    ref={(el) => { this.messageList = el; }}>
-                    { messageRows }
-                </div>
-                : !loading ? 
-                <p className="empty">
-                    <span className="icon icon-3x icon-only icon-quill-ink"></span>
-                    <span>This is the very begining of this thread. Write away...</span>
-                </p> 
-                : '' }
-
-                <div id="thread-updater" className="card-footer thread-updater">
-                    {/*<Ad classes="mt-0"></Ad>*/}
-                    <form className="card-form">
-                        <div className="field new-message te">
-                            <textarea 
-                                ref="newMessageTextarea" 
-                                placeholder="Type your message here..." 
-                                disabled={sending}
-                                minLength={minText}
-                                maxLength={maxText}
-                                onKeyUp={ev => this.handleNewMessageTextUpdated(ev)}/>
-                            <div className="te-companion">
+            <StyledThread>
+                <main className="sec-main sr-main">
+                    <section id="mardin-in" className={threadClasses} data-loadable="true">
+                        <div className="card-title">
+                            <h1 className={subjectClasses} contentEditable={isNew} ref="subjectHeading">{subject}</h1>
+                            <div className="info-bar">
                                 <small>
-                                    <span>Character count: </span>
-                                    <span className={teCharCounterClasses}>{newMessageLength}</span> / <span>{maxText}</span>
+                                    { infoLine ? 
+                                    <span>{infoLine}</span> 
+                                    : <span>Started {created_at} with {participants} and You</span>
+                                    }
                                 </small>
+
+                                <ul id="mardin-in-actions" className="mardin-actions">
+                                    <li>
+                                        <a href="#" title="Mark this thread as unread." onClick={this.handleMarkAsUnread.bind(this)}>
+                                            <IoMdMailUnread/>
+                                        </a>
+                                    </li>
+                                    {/*<li>
+                                        <a href="#" title="Delete this thread. This action may be permanent." onClick={this.handleDelete.bind(this)}>
+                                            <span className="icon-bin-1 icon-only"></span>
+                                        </a>
+                                    </li>*/}
+                                </ul>
                             </div>
                         </div>
-                        <div className="actions">
-                            <div className="action-info">
-                                <span>
-                                    <span className="icon icon-delete-2"></span> 
-                                    <span>Never share sensitive information via this medium.</span>
-                                    </span>
-                            </div>
-                            <div className="buttons">
-                                <button type="submit" className="btn btn-primary" onClick={ev => this.handleSendNewMessage(ev)} disabled={sending}>
-                                    <span className={sendBtnIcon}></span>
-                                    <span>Send</span>
-                                </button>
-                            </div>
+
+                        {/* Render messages or appropriate status. */}
+                        { messages.length ?
+                        <div id="thread-messages" 
+                            className="card-core thread-messages" 
+                            ref={(el) => { this.messageList = el; }}>
+                            { messageRows }
                         </div>
-                    </form>
-                </div>
-            </section>
+                        : !loading ? 
+                        <p className="empty">
+                            <FaFeather className="icon"/>
+                            <span>This is the very begining of this thread. Write away...</span>
+                        </p> 
+                        : '' }
+
+                        <div id="thread-updater" className="card-footer thread-updater">
+                            {/*<Ad classes="mt-0"></Ad>*/}
+                            <form className="card-form">
+                                <div className="field new-message te">
+                                    <textarea 
+                                        ref="newMessageTextarea" 
+                                        placeholder="Type your message here..." 
+                                        disabled={sending}
+                                        minLength={minText}
+                                        maxLength={maxText}
+                                        onKeyUp={ev => this.handleNewMessageTextUpdated(ev)}/>
+                                    <div className="te-companion">
+                                        <small>
+                                            <span>Character count: </span>
+                                            <span className={teCharCounterClasses}>{newMessageLength}</span> / <span>{maxText}</span>
+                                        </small>
+                                    </div>
+                                </div>
+                                <div className="actions">
+                                    <div className="action-info">
+                                        <span>
+                                            <span><MdWarning/> </span> 
+                                            <span>Never share sensitive information via this medium.</span>
+                                            </span>
+                                    </div>
+                                    <div className="buttons">
+                                        <button type="submit" className="btn btn-primary" onClick={ev => this.handleSendNewMessage(ev)} disabled={sending}>
+                                            <span><IoMdPaperPlane/> </span>
+                                            <span>Send</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </main>
+            </StyledThread>
         );
     }
 

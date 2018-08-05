@@ -17,22 +17,21 @@ import Inbox from './components/Inbox';
 import Thread from './components/Thread';
 import ThreadStack from './components/ThreadStack';
 import * as inboxActions from './actions/inboxActions';
-import * as threadActions from './actions/threadActions';
-
 
 export default class Mardin {
     /**
-     * Constructor. Initial setup.
-     * @param  {object} app Instance of SRJA application.
+     * Constructor
+     * @param  {object} app Application instance.
      */
     constructor(app) {
         this.Echo = window.Echo;
-        this.app = app;
+        this.app = app || {};
         this.listen();
 
-        app.Mardin = this;
-
         if (this.loaded && window.mardinBase) {
+            if (log === undefined) {
+                var log = console.log.bind(this);
+            }
             log('Mardin ready ^_^');
         }
     }
@@ -58,11 +57,10 @@ export default class Mardin {
             window.mardinAd = mardinAd || false;
 
             // Listen for user messages
-            this.Echo.private(`App.User.${user}.Messages`)
-                .listen('NewMessage', (e) => {
-                    let message = e.message.data;
-                    store.dispatch(inboxActions.newMessage(message));
-                });
+            this.Echo.private(`Mardin.Messages.User.${user}`).listen('.newMessage', e => {
+                let message = e.message.data;
+                store.dispatch(inboxActions.newMessage(message));
+            });
 
             // Mardin Inbox
             if (mardinInboxRoot.length) {
@@ -72,21 +70,26 @@ export default class Mardin {
                 });
 
                 // Create an enhanced history that syncs navigation events with the store
-                const history = syncHistoryWithStore(browserHistory, store)
+                const history = syncHistoryWithStore(browserHistory, store);
 
                 history.listen(location => this.handleInboxViewChanged(location));
 
-                // Render Inbox 
+                // Render Inbox
                 ReactDOM.render(
                     <Provider store={store}>
                         <Router history={history}>
-                            <Route path="/" component={Inbox} onViewChanged={this.handleInboxViewChanged.bind(this)} 
-                                    userId={user} app={this.app}>
-                                <IndexRoute component={ThreadStack}/>
-                                <Route path="unread" component={ThreadStack}/>
-                                <Route path="starred" component={ThreadStack}/>
-                                <Route path="archived" component={ThreadStack}/>
-                                <Route path="trashed" component={ThreadStack}/>
+                            <Route
+                                path="/"
+                                component={Inbox}
+                                onViewChanged={this.handleInboxViewChanged.bind(this)}
+                                userId={user}
+                                app={this.app}
+                            >
+                                <IndexRoute component={ThreadStack} />
+                                <Route path="unread" component={ThreadStack} />
+                                <Route path="starred" component={ThreadStack} />
+                                <Route path="archived" component={ThreadStack} />
+                                <Route path="trashed" component={ThreadStack} />
                             </Route>
                         </Router>
                     </Provider>,
@@ -98,22 +101,23 @@ export default class Mardin {
             if (mardinThreadRoot.length) {
                 // Set update url
                 const thread = mardinThreadRoot.data('thread'),
-                      recipients = mardinThreadRoot.data('recipients') || null,
-                      subject = mardinThreadRoot.data('subject') || thread.subject,
-                      infoLine = mardinThreadRoot.data('info-line') || null,
-                      isNew = !thread;
+                    recipients = mardinThreadRoot.data('recipients') || null,
+                    subject = mardinThreadRoot.data('subject') || thread.subject,
+                    infoLine = mardinThreadRoot.data('info-line') || null,
+                    isNew = !thread;
 
-                // Render Inbox 
+                // Render Inbox
                 ReactDOM.render(
                     <Provider store={store}>
-                        <Thread 
-                            thread={thread} 
-                            userId={user} 
-                            recipients={recipients} 
-                            app={this.app} 
-                            isNew={isNew} 
+                        <Thread
+                            thread={thread}
+                            userId={user}
+                            recipients={recipients}
+                            app={this.app}
+                            isNew={isNew}
                             subject={subject}
-                            infoLine={infoLine} />
+                            infoLine={infoLine}
+                        />
                     </Provider>,
                     mardinThreadRoot.get(0)
                 );
@@ -123,9 +127,7 @@ export default class Mardin {
             if (mardinTrayRoot.length) {
                 ReactDOM.render(
                     <Provider store={store}>
-                        <Tray 
-                            userId={user} 
-                            app={this.app} />
+                        <Tray userId={user} app={this.app} />
                     </Provider>,
                     mardinTrayRoot.get(0)
                 );
@@ -138,13 +140,13 @@ export default class Mardin {
 
     /**
      * On changing view, fire actions to update state.
-     * 
-     * @param  {object} location 
+     *
+     * @param  {object} location
      * @return {void}
      */
     handleInboxViewChanged(location) {
         let view = location.pathname.replace(/\//, '') || 'all';
-        store.dispatch(inboxActions.changeView(view))
+        store.dispatch(inboxActions.changeView(view));
         store.dispatch(inboxActions.fetchThreads(view));
         store.dispatch(inboxActions.changeSubtitle(view));
     }
