@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createHistory, useBasename } from 'history';
 import { syncHistoryWithStore } from 'react-router-redux';
-import { Route, Router, IndexRoute, hashHistory, Redirect } from 'react-router';
+import { Route, Router, IndexRoute } from 'react-router';
 
 import store from './store';
 import Tray from './components/Tray';
@@ -17,6 +17,7 @@ import Inbox from './components/Inbox';
 import Thread from './components/Thread';
 import ThreadStack from './components/ThreadStack';
 import * as inboxActions from './actions/inboxActions';
+import { Notifications } from './utils';
 
 export default class Mardin {
     /**
@@ -26,8 +27,14 @@ export default class Mardin {
     constructor(app) {
         this.Echo = window.Echo;
         this.app = app || {};
+
+        // set up notifications
+        this.Notifications = new Notifications();
+
+        // listen - set up all triggers
         this.listen();
 
+        // set up finished
         if (this.loaded && window.mardinBase) {
             if (log === undefined) {
                 var log = console.log.bind(this);
