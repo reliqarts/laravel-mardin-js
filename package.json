@@ -1,6 +1,6 @@
 {
     "name": "mardin",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Laravel Mardin Messenger counterpart. This little pigeon ^_^",
     "main": "dist/mardin.js",
     "scripts": {
@@ -64,6 +64,7 @@
         "emotion": "^9.2.6",
         "immutability-helper": "^2.1.1",
         "laravel-echo": "^1.2.3",
+        "noty": "^3.1.4",
         "pusher-js": "^4.0.0",
         "react": "^15.4.2",
         "react-dom": "^16.0.1",
