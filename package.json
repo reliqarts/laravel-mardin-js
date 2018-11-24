@@ -1,6 +1,6 @@
 {
     "name": "mardin",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "description": "Laravel Mardin Messenger counterpart. This little pigeon ^_^",
     "main": "dist/mardin.js",
     "scripts": {
@@ -80,6 +80,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com/ReliQArts/mardin-js.git"
+        "url": "git+ssh://git@github.com/ReliQArts/laravel-mardin-js.git"
     }
 }
